@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SalesWebMvc.Services;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
+using SalesWebMvc.Models;
+using SalesWebMvc.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SalesWebMvc.Controllers
 {
@@ -20,6 +19,19 @@ namespace SalesWebMvc.Controllers
         {
             var listSellers = _sellerService.FindAll();
             return View(listSellers);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Seller objSeller)
+        {
+            _sellerService.Insert(objSeller);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
